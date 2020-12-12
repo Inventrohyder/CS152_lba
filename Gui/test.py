@@ -1,6 +1,5 @@
-from os import system
-from tkinter import *
-from pyswip import *
+from tkinter import Frame, Label, Button, Tk
+from pyswip import Prolog, Functor, Variable, Atom, registerForeign, call
 from tkinter import simpledialog
 import pylcs
 import numpy as np
@@ -49,9 +48,11 @@ def read_py(A: Atom, V: Atom, Y: Variable) -> bool:
     It is used to get Yes, No questions.
     Yes is normally evaluated by Prolog as True and any other input as False.
 
-    :param A: The question (askable) that the usere should be prompted with.
-    :param V: The value that the user needs to agree (yes) or disagree (any other input) with.
-    :param Y: The value that Prolog will match with as True. Normally it's 'Yes'.
+    :param A: The question (askable) that the user should be prompted with.
+    :param V: The value that the user needs to agree (yes) or disagree 
+                (any other input) with.
+    :param Y: The value that Prolog will match with as True. 
+                Normally it's 'Yes'.
 
     :returns True if Y is a Prolog Variable and False otherwise.
     """
