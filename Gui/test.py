@@ -171,7 +171,7 @@ def queryGenerator():
     q = list(prolog.query("answer(X).", maxresult=1))  # prolog query
 
     for v in q:
-        app.chatWindow['text'] += f"ANSWER: {str(v['X'])}\n"
+        app.chatWindow['text'] += f"ANSWER ==> {str(v['X'])}\n"
 
     app.Button.configure(text="Run again")
 
