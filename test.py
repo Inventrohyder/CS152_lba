@@ -85,7 +85,7 @@ def get_menu_input(question: str, MenuList: list, lst_lcs: list) -> str:
     """
     Carries out the logic of identifying the choice of the user from the menu.
     A user can either choose a number or write some text.
-    If they choose a number it has to be a valid number amoung the count of options given.
+    If they choose a number it has to be a valid number amount the count of options given.
     If they provide a string it has to have the best match (among the options) be more than 10%.
 
     :param MenuList: The options that the user needs to choose from. They are stored as Prolog Atoms.
@@ -154,10 +154,14 @@ def queryGenerator():
     # Each we query clear all the known values
     call(retractall(known))
 
+    app.chatWindow['text'] = "="*70 + "\n"
+
     q = list(prolog.query("answer(X).", maxresult=1))  # prolog query
 
     for v in q:
         app.chatWindow['text'] += f"ANSWER: {str(v['X'])}\n"
+
+    app.Button.configure(text="Run again")
 
 
 root = Tk()
