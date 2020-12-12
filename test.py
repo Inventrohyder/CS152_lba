@@ -1,13 +1,8 @@
 from tkinter import *
-import tkinter
-import tkinter.messagebox
-from PIL import ImageTk, Image
 from pyswip import *
 from tkinter import simpledialog
 import pylcs
 import numpy as np
-
-
 
 class DPDP():
 
@@ -32,7 +27,6 @@ known = Functor("known", 3)
 
 def write_py(X):
     """Prints the input X to the console and returns True to Prolog"""
-    print(f'\t{X}')
     app.chatWindow['text'] += f'\t{X}\n'
     return True
 
@@ -79,10 +73,8 @@ def read_py_menu(A: Atom, Y: Variable, MenuList: list) -> bool:
         for i, x in enumerate(MenuList):
             question += "\t" + str(i) + " .  " + str(x) + "\n"
             list_for_lcs.append(str(x))
-
         response = get_menu_input(question, MenuList, list_for_lcs)
         app.chatWindow['text'] += f"YOU: {response}\n"
-        print(f'\tYou chose {response}\n')
         Y.unify(response)
         return True
     else:
@@ -159,16 +151,12 @@ registerForeign(read_py_menu)
 def queryGenerator():
       # this prints the values that are chosen,correctly
 
+    # Each we query clear all the known values
     call(retractall(known))
 
     q = list(prolog.query("answer(X).", maxresult=1))  # prolog query
-   # for e in q[0].values():
-   # print("You have " + e)
-   # break
-    print(q)
+
     for v in q:
-        print(v)
-        print(v['X'])
         app.chatWindow['text'] += f"ANSWER: {str(v['X'])}\n"
 
 
