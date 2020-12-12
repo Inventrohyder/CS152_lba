@@ -1,14 +1,13 @@
 # CS152 lba Fall 2020 Team-4
 
 **Authors:**
-[Ewa Szyszka](https://github.com/EwaSzyszka), 
-Hanaka Saito, 
-[Haitham Alhad Hyder](https://github.com/inventrohyder), 
+[Ewa Szyszka](https://github.com/EwaSzyszka),
+Hanaka Saito,
+[Haitham Alhad Hyder](https://github.com/inventrohyder),
 [Verina Armanyous](https://github.com/verina-armanyous).
 
 As part of the CS152 course taken at Minerva Schools at KGI during the Fall 2020 semester,
 students were tasked to come up with an expert system that was relevant during the COVID-19 pandemic.
-
 
 The Graphical User Interface implemented is here:
 
