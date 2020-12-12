@@ -16,16 +16,10 @@ class DPDP():
         frame = Frame(master)
         frame.grid()
 
-        # attributes for colors
-        self.tl_bg = "#EEEEEE"
-        self.tl_bg2 = "#EEEEEE"
-        self.tl_fg = "black"
-        self.font = "Verdana 10"
-
         self.chatWindow = Label(master, bd=1, bg='white', width = 100, height = 8, justify="left")
         self.chatWindow.place(x=6,y=6,height=385,width=800)
 
-        self.Button = Button(master, text="send", bg='blue',activebackground='light blue',width=12, height=5, command=lambda: queryGenerator())
+        self.Button = Button(master, text="Start system", bg='blue',activebackground='light blue',width=12, height=5, command=lambda: queryGenerator())
         self.Button.place(x=6,y=400,height=88,width=120)
 
 
@@ -83,7 +77,7 @@ def read_py_menu(A: Atom, Y: Variable, MenuList: list) -> bool:
         list_for_lcs = []
         question = "" + str(A) + "\n"
         for i, x in enumerate(MenuList):
-            question += str(i) + " .  " + str(x) + "\n"
+            question += "\t" + str(i) + " .  " + str(x) + "\n"
             list_for_lcs.append(str(x))
 
         response = get_menu_input(question, MenuList, list_for_lcs)
