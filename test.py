@@ -22,7 +22,7 @@ class DPDP():
         self.tl_fg = "black"
         self.font = "Verdana 10"
 
-        self.chatWindow = Label(master, bd=1, bg='white', width = 100, height = 8, anchor='w')
+        self.chatWindow = Label(master, bd=1, bg='white', width = 100, height = 8, justify="left")
         self.chatWindow.place(x=6,y=6,height=385,width=800)
 
         self.Button = Button(master, text="send", bg='blue',activebackground='light blue',width=12, height=5, command=lambda: queryGenerator())
