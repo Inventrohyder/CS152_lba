@@ -3,6 +3,7 @@ import tkinter
 import tkinter.messagebox
 from PIL import ImageTk, Image
 from pyswip import *
+from tkinter import simpledialog
 
 
 sympList = ['--Select--', 'headache', 'sneezing', 'runny_nose', 'sore_throat', 'fever', 'chills', 'bodyache',
@@ -98,14 +99,39 @@ class DPDP:
                                                    self.selSymp4.get()))
         bt.grid(row=4, column=5)
 
+prolog = Prolog() # Global handle to interpreter
+prolog.consult('kb.pl')
+
+retractall = Functor("retractall")
+known = Functor("known",3)
+
+# Define foreign functions for getting user input and writing to the screen
+def write_py(X):
+    sys.stdout.flush()
+    return True
+
+def read_py(A,V,Y):
+    if isinstance(Y, Variable):
+        response = simpledialog.askstring("Input", str(A) + " is " + str(V) + "? ",
+                                parent=root)
+        Y.unify(response)
+        return True
+    else:
+        return False
+
+write_py.arity = 1
+read_py.arity = 3
+
+registerForeign(read_py)
+registerForeign(write_py)
 
 def queryGenerator(s1, s2, s3, s4):
 
     print(s1, s2, s3, s4)  # this prints the values that are chosen,correctly
-    prolog = Prolog()
-    prolog.consult('kb.pl')
 
-    q = list(prolog.query("answer(X, '%s',%s,%s)." % (s1, s2, s3)))  # prolog query
+    call(retractall(known)) 
+
+    q = list(prolog.query("problem(X)."))  # prolog query
    # for e in q[0].values():
    # print("You have " + e)
    # break
@@ -116,6 +142,7 @@ def queryGenerator(s1, s2, s3, s4):
         tkinter.messagebox.showinfo(title=str(v), message=str(v['X']))
     
     
+
 
 
 root = Tk()
