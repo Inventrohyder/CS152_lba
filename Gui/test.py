@@ -1,3 +1,4 @@
+from os import system
 from tkinter import *
 from pyswip import *
 from tkinter import simpledialog
@@ -25,9 +26,20 @@ retractall = Functor("retractall")
 known = Functor("known", 3)
 
 
-def write_py(X):
-    """Prints the input X to the console and returns True to Prolog"""
-    app.chatWindow['text'] += f'\t{X}\n'
+def system_response(response: str) -> None:
+    """
+    Prints the input response to the GUI and returns True to Prolog
+    and prepending SYSTEM to show that it is the system talking
+    """
+    app.chatWindow['text'] += f'SYSTEM: {response}'
+    return True
+
+def user_response(response: str) -> None:
+    """
+    Prints the input response to the GUI and returns True to Prolog
+    and prepending USER to show that it is the user talking
+    """
+    app.chatWindow['text'] += f'YOU: {response}\n'
     return True
 
 
@@ -44,8 +56,8 @@ def read_py(A: Atom, V: Atom, Y: Variable) -> bool:
     :returns True if Y is a Prolog Variable and False otherwise.
     """
     if isinstance(Y, Variable):
-        app.chatWindow['text'] += str(A) + " " + str(V) + "?\n"
-        response = simpledialog.askstring("Input", str(A) + " " + str(V) + "?",
+        system_response(f'{str(A)} {str(V)}?\n')
+        response = simpledialog.askstring("Input", f'{str(A)} {str(V)}?',
                                           parent=root)
 
         Y.unify(response)
@@ -67,14 +79,13 @@ def read_py_menu(A: Atom, Y: Variable, MenuList: list) -> bool:
     :returns True if Y is a Prolog variable and False otherwise.
     """
     if isinstance(Y, Variable):
-        print(A)
         list_for_lcs = []
         question = "" + str(A) + "\n"
         for i, x in enumerate(MenuList):
             question += "\t" + str(i) + " .  " + str(x) + "\n"
             list_for_lcs.append(str(x))
         response = get_menu_input(question, MenuList, list_for_lcs)
-        app.chatWindow['text'] += f"YOU: {response}\n"
+        user_response(response)
         Y.unify(response)
         return True
     else:
@@ -93,7 +104,7 @@ def get_menu_input(question: str, MenuList: list, lst_lcs: list) -> str:
 
     :returns a string of the option that the user chose.
     """
-    app.chatWindow['text'] += f"SYSTEM: {question}"
+    system_response(question)
     from_user = simpledialog.askstring("Input", question,
                                        parent=root)
     response_int = float('inf')
@@ -137,14 +148,15 @@ def most_appropriate(response: str, lst_lcs: list) -> str:
         return response
     return lst_lcs[option_idx]
 
-
-write_py.arity = 1
+system_response.arity = 1
+user_response.arity = 1
 read_py.arity = 3
 
 read_py_menu.arity = 3
 
 registerForeign(read_py)
-registerForeign(write_py)
+registerForeign(system_response)
+registerForeign(user_response)
 registerForeign(read_py_menu)
 
 

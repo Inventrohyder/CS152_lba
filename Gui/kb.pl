@@ -124,7 +124,7 @@ V \== V2,
 ask(A, V):-
 read_py(A,V,Y), % get the answer
 asserta(known(Y, A, V)), % remember it
-write_py(known(Y, A, V)),
+user_response(Y),
 Y == yes.	% succeed or fail
 
 
@@ -147,5 +147,5 @@ check_val(X, _, _, MenuList) :-
  member(X, MenuList),
  !.
 check_val(X, A, V, MenuList) :-
- write_py(X), write_py(' is not a legal value, try again.'), nl,
+ system_response(X), system_response(' is not a legal value, try again.\n'),
  menuask(A, V, MenuList). 
