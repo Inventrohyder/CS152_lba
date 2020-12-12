@@ -12,10 +12,10 @@ class DPDP():
         frame.grid()
 
         self.chatWindow = Label(master, bd=1, bg='white', width = 100, height = 8, justify="left")
-        self.chatWindow.place(x=6,y=6,height=385,width=800)
+        self.chatWindow.place(x=6,y=6,height=500,width=800)
 
         self.Button = Button(master, text="Start system", bg='blue',activebackground='light blue',width=12, height=5, command=lambda: queryGenerator())
-        self.Button.place(x=6,y=400,height=88,width=120)
+        self.Button.place(x=6,y=510,height=88,width=800)
 
 
 prolog = Prolog()  # Global handle to interpreter
