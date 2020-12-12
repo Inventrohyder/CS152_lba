@@ -9,12 +9,12 @@ import numpy as np
 
 
 
-class DPDP(Frame):
+class DPDP():
 
     def __init__(self, master):
 
-        Frame.__init__(self, master)
-        self.master = master
+        frame = Frame(master)
+        frame.grid()
 
         # attributes for colors
         self.tl_bg = "#EEEEEE"
@@ -22,36 +22,11 @@ class DPDP(Frame):
         self.tl_fg = "black"
         self.font = "Verdana 10"
 
-        menu = Menu(self.master)
+        self.chatWindow = Label(master, bd=1, bg='white', width = 100, height = 8, anchor='w')
+        self.chatWindow.place(x=6,y=6,height=385,width=800)
 
-        self.text_frame = Frame(self.master, bd=6)
-        self.text_frame.pack(expand=True, fill=BOTH)
-
-        # adding scroll bar
-        self.text_box_scrollbar = Scrollbar(self.text_frame, bd=0)
-        self.text_box_scrollbar.pack(fill=Y, side=RIGHT)
-
-        # Adding text box to show the conversation
-
-        self.text_box = Text(self.text_frame, yscrollcommand=self.text_box_scrollbar.set, state=DISABLED,
-                             bd=1, padx=6, pady=6, spacing3=8, wrap=WORD, bg=None, font="Verdana 10", relief=GROOVE,
-                             width=10, height=1)
-        self.text_box.pack(expand=True, fill=BOTH)
-        self.text_box_scrollbar.config(command=self.text_box.yview)
-
-        # Adding a frame that wraps user entry
-        self.entry_frame = Frame(self.master, bd=1)
-        self.entry_frame.pack(side=LEFT, fill=BOTH, expand=True)
-        
-         # Frame containing send button
-        self.send_button_frame = Frame(self.master, bd=0)
-        self.send_button_frame.pack(fill=BOTH)
-
-
-        self.send_button = Button(self.send_button_frame, text="click", width=5, relief=GROOVE, bg='white',
-                                  bd=1, command=lambda: queryGenerator(), activebackground="#FFFFFF",
-                                  activeforeground="#000000")
-        self.send_button.pack(side=LEFT, ipady=8)
+        self.Button = Button(master, text="send", bg='blue',activebackground='light blue',width=12, height=5, command=lambda: queryGenerator())
+        self.Button.place(x=6,y=400,height=88,width=120)
 
 
 prolog = Prolog()  # Global handle to interpreter
@@ -64,6 +39,7 @@ known = Functor("known", 3)
 def write_py(X):
     """Prints the input X to the console and returns True to Prolog"""
     print(f'\t{X}')
+    app.chatWindow['text'] += f'\t{X}\n'
     return True
 
 
@@ -80,6 +56,7 @@ def read_py(A: Atom, V: Atom, Y: Variable) -> bool:
     :returns True if Y is a Prolog Variable and False otherwise.
     """
     if isinstance(Y, Variable):
+        app.chatWindow['text'] += str(A) + " " + str(V) + "?\n"
         response = simpledialog.askstring("Input", str(A) + " " + str(V) + "?",
                                           parent=root)
 
@@ -110,7 +87,8 @@ def read_py_menu(A: Atom, Y: Variable, MenuList: list) -> bool:
             list_for_lcs.append(str(x))
 
         response = get_menu_input(question, MenuList, list_for_lcs)
-        print('\tYou chose', response)
+        app.chatWindow['text'] += f"YOU: {response}\n"
+        print(f'\tYou chose {response}\n')
         Y.unify(response)
         return True
     else:
@@ -129,6 +107,7 @@ def get_menu_input(question: str, MenuList: list, lst_lcs: list) -> str:
 
     :returns a string of the option that the user chose.
     """
+    app.chatWindow['text'] += f"SYSTEM: {question}"
     from_user = simpledialog.askstring("Input", question,
                                        parent=root)
     response_int = float('inf')
@@ -196,7 +175,7 @@ def queryGenerator():
     for v in q:
         print(v)
         print(v['X'])
-        tkinter.messagebox.showinfo(title=str(v), message=str(v['X']))
+        app.chatWindow['text'] += f"ANSWER: {str(v['X'])}\n"
 
 
 root = Tk()
