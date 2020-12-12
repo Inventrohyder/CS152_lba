@@ -162,12 +162,7 @@ import pylcs
 import numpy as np
 import requests
 
-# Check if pyswip package needs to be installed
-
-
-from pyswip.prolog import Prolog
-from pyswip.easy import *
-
+from pyswip import Prolog, Functor, Variable, Atom, registerForeign, call
 
 prolog = Prolog() # Global handle to interpreter
 
@@ -189,8 +184,9 @@ def read_py(A: Atom, V: Atom, Y: Variable) -> bool:
     It is used to get Yes, No questions.
     Yes is normally evaluated by Prolog as True and any other input as False.
 
-    :param A: The question (askable) that the usere should be prompted with.
-    :param V: The value that the user needs to agree (yes) or disagree (any other input) with.
+    :param A: The question (askable) that the user should be prompted with.
+    :param V: The value that the user needs to agree (yes) or disagree 
+                (any other input) with.
     :param Y: The value that Prolog will match with as True. Normally it's 'Yes'.
 
     :returns True if Y is a Prolog Variable and False otherwise.
@@ -233,11 +229,14 @@ def get_menu_input(MenuList: list, lst_lcs: list) -> str:
     """
     Carries out the logic of identifying the choice of the user from the menu.
     A user can either choose a number or write some text.
-    If they choose a number it has to be a valid number amoung the count of options given.
-    If they provide a string it has to have the best match (among the options) be more than 10%.
+    If they choose a number it has to be a valid number amount the count of 
+    options given. If they provide a string it has to have the best match 
+    (among the options) be more than 10%.
 
-    :param MenuList: The options that the user needs to choose from. They are stored as Prolog Atoms.
-    :param lst_lcs: The options stored in a list of strings that Python can interprate.
+    :param MenuList: The options that the user needs to choose from. 
+                    They are stored as Prolog Atoms.
+    :param lst_lcs: The options stored in a list of strings that Python 
+                    can interprate.
 
     :returns a string of the option that the user chose.
     """
@@ -300,9 +299,22 @@ os.unlink(name) # Remove the temporary file
 
 call(retractall(known))
 
-#Using covidtracking API to give uptodate information
-response = requests.get("https://api.covidtracking.com/v1/states/ca/current.json")
-print("Here is  a quick update on COVID situation in San Francisco: \nThe death toll as of",response.json()['checkTimeEt'], "is", response.json()['death'])
-print("Today, the number of cases increased by",response.json()['positiveIncrease'],",while death cases increased by",response.json()['deathIncrease'],"\n")
+# Using covidtracking API to give up to date information
+response = requests.get(
+    "https://api.covidtracking.com/v1/states/ca/current.json"
+    )
+print(
+    "Here is  a quick update on COVID situation in San Francisco: \nThe death toll as of",
+    response.json()['checkTimeEt'], 
+    "is", 
+    response.json()['death']
+    )
+print(
+    "Today, the number of cases increased by",
+    response.json()['positiveIncrease'],
+    ",while death cases increased by",
+    response.json()['deathIncrease'],
+    "\n"
+    )
 answer = [s for s in prolog.query("answer(X).", maxresult=1)]
 print((answer[0]['X'] +"." if answer else "unknown."))

@@ -1,5 +1,4 @@
-KB = """
-%%KB
+KB = """%%KB
 
               
 %RULES
