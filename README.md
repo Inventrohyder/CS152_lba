@@ -2,7 +2,7 @@
 
 **Authors:**
 [Ewa Szyszka](https://github.com/EwaSzyszka),
-Hanaka Saito,
+[Hanaka Saito](https://github.com/hanaka-saito1225),
 [Haitham Alhad Hyder](https://github.com/inventrohyder),
 [Verina Armanyous](https://github.com/verina-armanyous).
 
